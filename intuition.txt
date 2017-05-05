@@ -1,0 +1,33 @@
+Next you could look at values x = 1 and y = 0 - which would be just right of the center spot in the fourier space. Because y is 0, it becomes redundant in the exponential part. This further means when we loop through all the pixels (done by the double summation), pixels in the same column will have the result. So for column 1 where  n = 0 we get:
+Summation(m=0->M-1) : f(m,0)e^(-(j2pi)*(m/M)
+This can be written as follows
+ Summation(m=0 -> M-1) : f(m,0)(cos((2*pi*m) / M) + jsin((2*pi*m)/M) 
+
+Now what happens is that as you cycle through m, because cos is even, the real terms accumulate and because sin is odd, the imaginary parts disappear.
+
+This can be shown by saying e.g M= 5 
+The imaginary part is then:
+sin (2pi/5) + sin(4*pi/5) + sin(6pi/5) + sin(8pi/5) + sin(10pi/5) 
+sin (2pi/5) + sin(8pi/5) = 0
+sin (4pi/5) + sin(6pi/5) = 0
+sin (10pi/5) =  0
+
+What you are left with is:
+(1) Summation(m=0 -> M-1) : f(m,0) (cos 2pi*m/M) 
+
+A well know fourier series result is that
+f(x) = summation(n=0 -> infinity) sin(n*(2pi*x/T)) forms a square wave 
+Now if we do this to M-1 instead
+f(x) = summation(m=0->M-1): sin(m*2pi*x/T) it will form a less accurate square wave 
+Now we shift this by pi/2
+f(x) = summation(m=0->M-1): sin(m*2pi*x/T + pi/2)  this is shifted square wave
+But this equals
+f(x) = summation(m=0->M-1) cos(2pi*x*m/M) 
+
+This function corresponds to the diagram below, as the function applied for each y coordinate.
+
+And so to wrap up (1) is basically multiplying the pixel intensities in the image with a 2d sinusoid that determines the intensity. 
+
+-------
+When y = 1 and x = 0, it works in the exact same way, only that everything in the same column having the same value, now everything in the same row has the same value.
+For values where x = 1 y = 1, the imaginary part of the function comes into play. Fuck that   
